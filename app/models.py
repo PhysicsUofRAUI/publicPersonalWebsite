@@ -1,5 +1,8 @@
-
-
+#
+# This will largely be deleted/redone in the final version.
+# I just wanted to use this to roughly detail what I wanted the
+# database to look like
+#
 
 class Photo() :
     """
