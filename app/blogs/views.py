@@ -1,11 +1,3 @@
-#
-# Views
-#     Travel: draws up and displays the travel blogs
-#     Projects: draws up and displays the project blogs
-#     Add Post: displays the add form and adds new posts
-#     Edit Post: displays the edit form and allows the user to edit posts
-#     Delete Post: deletes a post from the database
-#
 
 #
 # Travel
@@ -127,7 +119,7 @@
 #     several database, POST and GET stuff that will be figured later
 #
 
-# 
+#
 # Delete Post
 # Purpose:
 #     allow a user to delete a post from the database
