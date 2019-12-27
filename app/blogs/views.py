@@ -79,7 +79,7 @@
 #         except:
 #             flash that an error has occured
 #
-#             redirect to the Post page with that particular post as an input
+#         redirect to the Post page with that particular post as an input
 #
 #     render the add post template
 #
