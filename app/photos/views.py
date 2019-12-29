@@ -28,8 +28,31 @@
 #
 # Add PhotoCategory
 # Purpose:
-#     Let the user add a new photo category.
+#     Let the user add a new category for photos.
+# Method:
+#     check if the user is logged in
 #
+#     create a PhotoCategoryForm
+#
+#     if a PhotoCategoryForm has been validated
+#         create a new photocategory instance and make it's values equal to the submited values
+#
+#         try:
+#             adding the new photocategory
+#             flash a success message
+#         except:
+#             flash that an error has occured
+#
+#         redirect to the Gallery page
+#
+#     render the add photocategory template
+#
+# Other functions and classes needed:
+#     render_template, flash, and url_for from flask
+#     PhotoCategoryForm from forms.py
+#     several database, POST and GET stuff that will be figured later
+#
+
 
 #
 # Add Photo

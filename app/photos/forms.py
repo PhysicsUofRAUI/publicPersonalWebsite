@@ -20,3 +20,18 @@
 #     FlaskForm from flask_wtf
 #     Required from wtforms.validators
 #
+
+#
+# PhotoCategoryForm
+# Purpose:
+#     allows user to add new categories for photos
+#
+# Fields:
+#     Name: String Field (Required)
+#     Submit: SubmitField
+#
+# Other Functions or Classes Needed:
+#     StringField, SubmitField from wtforms
+#     FlaskForm from flask_wtf
+#     Required from wtforms.validators
+#

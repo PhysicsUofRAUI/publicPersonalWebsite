@@ -149,4 +149,26 @@
 # Add PostSubCategory
 # Purpose:
 #     Let the user add a new subcategory for posts.
+# Method:
+#     check if the user is logged in
+#
+#     create a SubCategoryForm
+#
+#     if a SubCategoryForm has been validated
+#         create a new subcategory instance and make it's values equal to the submited values
+#
+#         try:
+#             adding the new subcategory
+#             flash a success message
+#         except:
+#             flash that an error has occured
+#
+#         redirect to the home page
+#
+#     render the add subcategory template
+#
+# Other functions and classes needed:
+#     render_template, flash, and url_for from flask
+#     SubCategoryForm from forms.py
+#     several database, POST and GET stuff that will be figured later
 #
