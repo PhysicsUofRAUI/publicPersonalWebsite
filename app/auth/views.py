@@ -24,6 +24,9 @@
 #
 #     All defined so we good :)
 #
+# GET and POST stuff:
+#   the flask software largely takes care of it I guess. Check the dream team example.
+# 
 
 #
 # Logout

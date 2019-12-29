@@ -24,6 +24,13 @@
 # Need to look at:
 #     database and Post and Get stuff
 #
+# Useful Advice:
+#     The subcategory could be specified in the url as well. It could then be checked whether that
+#     passed value is null or not and that can be how subcategories are specified.
+#
+#     See the dream team example and https://exploreflask.com/en/latest/views.html
+#
+
 
 #
 # Add PhotoCategory
@@ -110,6 +117,10 @@
 #     render_template, flash, and url_for from flask
 #     PhotoForm from forms.py
 #     several database, POST and GET stuff that will be figured later
+#
+# Useful advice:
+#   the id of the post can be specified in the route. See this link: https://exploreflask.com/en/latest/views.html
+#   also the dream team example does the same thing.
 #
 
 #
