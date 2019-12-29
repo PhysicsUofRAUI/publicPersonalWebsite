@@ -26,6 +26,12 @@
 #
 
 #
+# Add PhotoCategory
+# Purpose:
+#     Let the user add a new photo category.
+#
+
+#
 # Add Photo
 # Purpose:
 #     Allows the user to enter a new photo in the database

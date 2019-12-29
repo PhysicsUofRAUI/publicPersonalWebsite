@@ -144,3 +144,9 @@
 #     Post from models
 #     render_template, flash from flask
 #
+
+#
+# Add PostSubCategory
+# Purpose:
+#     Let the user add a new subcategory for posts.
+#
