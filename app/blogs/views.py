@@ -1,3 +1,8 @@
+from flask import render_template
+from .. import db
+from . import blogs
+from forms import PostForm, SubCategoryForm
+from ..models import Post, PostCategory, PostSubCategory
 
 #
 # Travel
@@ -22,10 +27,6 @@
 #
 # Other Functions or classes needed:
 #     render_template from flask
-#     also need database manipulation stuff, and the Post and Get shit
-#
-# Need to look at:
-#     database and Post and Get stuff
 #
 # Useful Advice:
 #     The subcategory could be specified in the url as well. It could then be checked whether that
@@ -33,7 +34,22 @@
 #
 #     See the dream team example and https://exploreflask.com/en/latest/views.html
 #
+@blogs.route('/travel/<subcategory>/<blog>', methods=['GET', 'POST'])
+def travel() :
+    if not blog == None :
+        blogs = Post.query.filter_by(id=blog)
 
+        render_template('travel.html', blogs=blogs)
+
+    else if not subcategory == None :
+        blogs = Post.query.filter_by(subcategory_id=subcategory, 'Travel'=category.name)
+
+        render_template('travel.html', blogs=blogs)
+
+    else :
+        blogs = Post.query.filter_by('Travel'=category.name)
+
+        render_template('travel.html', blogs=blogs)
 
 
 #
@@ -62,11 +78,6 @@
 #         render the Project page with all the posts and the subcategories
 # Other Functions or classes needed:
 #     render_template from flask
-#     also need database manipulation stuff, and the Post and Get shit
-#
-# Need to look at:
-#     database and Post and Get stuff
-#     good stuff can be found by looking how departments are dealt with in the example
 #
 # Useful Advice:
 #     The subcategory could be specified in the url as well. It could then be checked whether that
@@ -74,7 +85,22 @@
 #
 #     See the dream team example and https://exploreflask.com/en/latest/views.html
 #
+@blogs.route('/projects/<subcategory>/<blog>', methods=['GET', 'POST'])
+def projects() :
+    if not blog == None :
+        blogs = Post.query.filter_by(id=blog)
 
+        render_template('projects.html', blogs=blogs)
+
+    else if not subcategory == None :
+        blogs = Post.query.filter_by(subcategory_id=subcategory, 'Project'=category.name)
+
+        render_template('projects.html', blogs=blogs)
+
+    else :
+        blogs = Post.query.filter_by('Project'=category.name)
+
+        render_template('projects.html', blogs=blogs)
 
 #
 # Add Post
@@ -103,6 +129,30 @@
 #     PostForm from forms.py
 #     several database, POST and GET stuff that will be figured later
 #
+@blogs.route('/add_post', methods=['GET', 'POST'])
+def add_post():
+    """
+    Add a blog post
+    """
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    form = PostForm()
+
+    if form.validate_on_submit():
+        new_post = Post(name=title, content=content, category_id=category.id, category=category,
+            subcategory_id=sub_category.id, subcategory=sub_category)
+
+        try:
+            db.session.add(new_post)
+            db.session.commit()
+            flash('You have successfully added a new blog post!')
+        except:
+            flash('An error occured :(')
+
+        return redirect(url_for(other.home))
+
+    render_template('add_post.html', form=form)
 
 #
 # Edit Post
@@ -131,12 +181,43 @@
 # Other functions and classes needed:
 #     render_template, flash, and url_for from flask
 #     PostForm from forms.py
-#     several database, POST and GET stuff that will be figured later
 #
 # Useful advice:
 #   the id of the post can be specified in the route. See this link: https://exploreflask.com/en/latest/views.html
 #   also the dream team example does the same thing.
+#   unsure of correctness of lines marked with US
 #
+@admin.route('/edit_post/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+    """
+    Edit a blog post
+    """
+    # check if user is logged in
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    post = Post.query.get_or_404(id)
+    form = PostForm(obj=post)
+    if form.validate_on_submit():
+        post.name = form.name.data
+        post.content = form.content.data
+        post.category_id = form.category.data.id # US
+        post.category = form.category.data # US
+        post.subcategory_id = form.sub_category.data.id # US
+        post.subcategory = form.sub_category.data # US
+
+        db.session.commit()
+        flash('You have successfully edited the blog post.')
+
+        # redirect to the home page
+        return redirect(url_for('other.home'))
+
+    form.content.data = post.content
+    form.name.data = post.name
+    form.category.data = post.category # US
+    form.sub_category.data = post.subcategory # US
+    return render_template('edit_post.html', form=form, post=post, title="Edit Post")
+
 
 #
 # Delete Post
@@ -163,6 +244,22 @@
 #     Post from models
 #     render_template, flash from flask
 #
+@admin.route('/delete_post/<int:id>', methods=['GET', 'POST'])
+def delete_post(id):
+    """
+    Delete a post from the database
+    """
+    # check if user is logged in
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    post = Post.query.get_or_404(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('You have successfully deleted the post.')
+
+    # redirect to the home page
+    return redirect(url_for('other.home'))
 
 #
 # Add PostSubCategory
@@ -189,5 +286,27 @@
 # Other functions and classes needed:
 #     render_template, flash, and url_for from flask
 #     SubCategoryForm from forms.py
-#     several database, POST and GET stuff that will be figured later
 #
+@blogs.route('/add_subcategory', methods=['GET', 'POST'])
+def add_post():
+    """
+    Add a subcategory for blog posts
+    """
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    form = SubCategoryForm()
+
+    if form.validate_on_submit():
+        new_subcategory = PostSubCategory(name=name)
+
+        try:
+            db.session.add(new_subcategory)
+            db.session.commit()
+            flash('You have successfully added a new subcategory!')
+        except:
+            flash('An error occured :(')
+
+        return redirect(url_for(other.home))
+
+    render_template('add_subcategory.html', form=form)
