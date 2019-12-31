@@ -71,7 +71,7 @@ def login():
 @auth.route('/logout')
 def logout():
     if session.get('logged_in'):
-        session['logged_in'] = True
+        session['logged_in'] = False
         flash('You have successfully been logged out.')
 
     # redirect to the login page
