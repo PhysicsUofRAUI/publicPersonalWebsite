@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import PasswordField, StringField, SubmitField
+from wtforms.validators import DataRequired
 
 #
 # Purpose: This from will be used to collect the information for the user logging
@@ -13,3 +16,10 @@
 #     All the material that the user filled out (bassically all the fields but filled
 #         out).
 #
+class LoginForm(FlaskForm):
+    """
+    Form for users to login
+    """
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')

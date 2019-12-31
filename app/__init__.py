@@ -5,3 +5,8 @@
 # See the dream team example and I am sure ample documentation of how to set this
 # stuff up.
 #
+
+# seeting up our bcrypt stuff
+from flask.ext.bcrypt import Bcrypt
+
+bcrypt = Bcrypt(app)

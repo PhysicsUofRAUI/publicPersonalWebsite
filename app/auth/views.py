@@ -1,5 +1,15 @@
+from flask.ext.bcrypt import generate_password_hash
+from flask import flash, redirect, render_template, url_for
+from . import auth
+from forms import LoginForm
 
+# The simple login logout solution was found at the following link:
+# https://pythonspot.com/login-authentication-with-flask/
+# The bcrypt stuff was found here:
+# https://uniwebsidad.com/libros/explore-flask/chapter-12/storing-passwords
 
+# the password hash will be listed here I will run it later
+password = "need to run later"
 #
 # Login
 # Purpose:
@@ -19,14 +29,28 @@
 #         render the login page
 #
 # Other Functions Needed:
-#     login_user from flask_login
 #     redirect, flash, and render_template from flask
 #
 #     All defined so we good :)
 #
-# GET and POST stuff:
-#   the flask software largely takes care of it I guess. Check the dream team example.
-# 
+@auth.route('/login', methods=['POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+
+        if bcrypt.generate_password_hash(request.form['password']) == password and request.form['username'] == 'kody':
+            session['logged_in'] = True
+            flash('Login Successful!')
+
+            return redirect(url_for('other.home'))
+
+
+        # when login details are incorrect
+        else:
+            flash('Invalid username or password.')
+
+    # load login template
+    return render_template('auth/login.html', form=form, title='Login')
 
 #
 # Logout
@@ -43,5 +67,12 @@
 #
 # Other Functions Needed:
 #     redirect, flash, url_for from flask
-#     logout_user from flask_login
 #
+@auth.route('/logout')
+def logout():
+    if session.get('logged_in'):
+        session['logged_in'] = True
+        flash('You have successfully been logged out.')
+
+    # redirect to the login page
+    return redirect(url_for('other.home'))
