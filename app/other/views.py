@@ -1,8 +1,12 @@
+from flask import render_template
+from . import home
 
 #
 # Home
 # Purpose:
-#     will display the home page of the website
+#     will display the home page of the website both '/' and '/home' are used
+#     so that this is the first page shown and the page that is shown when home is
+#     requested
 #
 # Method:
 #     render the home page template
@@ -11,6 +15,10 @@
 # Other Functions and Classes needed:
 #     render_template from flask
 #
+@other.route('/')
+@other.route('/home')
+def homepage():
+    render_template("home.html", title='Home')
 
 #
 # Resume
@@ -23,3 +31,6 @@
 # Other Functions and Classes needed
 #     render_template from flask
 #
+@other.route('/resume')
+def resume() :
+    render_template('resume.html', title='Resume')
