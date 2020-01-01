@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from ..models import PostCategory, PostSubCategory
+from .. import db
 #
 # the style of using the select field was found from the example at this link
 # https://stackoverflow.com/questions/35314102/get-choices-from-a-database-query-in-wtforms-and-flask-sqlalchemy
