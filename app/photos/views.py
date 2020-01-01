@@ -1,4 +1,8 @@
-
+from flask import render_template
+from .. import db
+from . import photos
+from forms import PhotoForm, PhotoCategoryForm
+from ..models import Photo, PhotoCategory
 #
 # Gallery
 # Purpose:
@@ -19,18 +23,23 @@
 #         render the Gallery page with all the photos and the categories
 # Other Functions or classes needed:
 #     render_template from flask
-#     also need database manipulation stuff, and the Post and Get shit
 #
-# Need to look at:
-#     database and Post and Get stuff
-#
-# Useful Advice:
-#     The subcategory could be specified in the url as well. It could then be checked whether that
-#     passed value is null or not and that can be how subcategories are specified.
-#
-#     See the dream team example and https://exploreflask.com/en/latest/views.html
-#
+@photos.route('/Gallery/<category>/<photo>', methods=['GET', 'POST'])
+def gallery() :
+    if not photo == None :
+        photos = Photo.query.filter_by(id=photo)
 
+        render_template('gallery.html', photos=photos)
+
+    else if not category == None :
+        photos = Photo.query.filter_by(category_id=category)
+
+        render_template('gallery.html', photos=photos)
+
+    else :
+        photos = db.session.query(Photo).all()
+
+        render_template('travel.html', photos=photos)
 
 #
 # Add PhotoCategory
@@ -59,6 +68,29 @@
 #     PhotoCategoryForm from forms.py
 #     several database, POST and GET stuff that will be figured later
 #
+@photos.route('/add_photocategory', methods=['GET', 'POST'])
+def add_photocategory():
+    """
+    Add a photocategory
+    """
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    form = PhotoCategoryForm()
+
+    if form.validate_on_submit():
+        new_photocategory = PhotoCategory(name=name)
+
+        try:
+            db.session.add(new_photocategory)
+            db.session.commit()
+            flash('You have successfully added a new photo category')
+        except:
+            flash('An error occured :(')
+
+        return redirect(url_for(other.home))
+
+    render_template('add_photocategory.html', form=form)
 
 
 #
@@ -88,6 +120,29 @@
 #     PhotoForm from forms.py
 #     several database, POST and GET stuff that will be figured later
 #
+@photos.route('/add_photo', methods=['GET', 'POST'])
+def add_photo():
+    """
+    Add a photo
+    """
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    form = PhotoForm()
+
+    if form.validate_on_submit():
+        new_photo = Photo(filename=file_name, caption=caption, category_id=category.id, category=category)
+
+        try:
+            db.session.add(new_photo)
+            db.session.commit()
+            flash('You have successfully added a new photo!')
+        except:
+            flash('An error occured :(')
+
+        return redirect(url_for(other.home))
+
+    render_template('add_photo.html', form=form)
 
 #
 # Edit Photo
@@ -122,6 +177,33 @@
 #   the id of the post can be specified in the route. See this link: https://exploreflask.com/en/latest/views.html
 #   also the dream team example does the same thing.
 #
+@photos.route('/edit_photo/<int:id>', methods=['GET', 'POST'])
+def edit_photo(id):
+    """
+    Edit a photo
+    """
+    # check if user is logged in
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    photo = Photo.query.get_or_404(id)
+    form = PhotoForm(obj=post)
+    if form.validate_on_submit():
+        photo.filename = form.file_name.data
+        post.caption = form.caption.data
+        post.category_id = form.category.data.id # US
+        post.category = form.category.data # US
+
+        db.session.commit()
+        flash('You have successfully edited the blog post.')
+
+        # redirect to the home page
+        return redirect(url_for('other.home'))
+
+    form.caption.data = photo.caption
+    form.file_name.data = photo.filename
+    form.category.data = photo.category # US
+    return render_template('edit_photo.html', form=form, photo=photo, title="Edit Photo")
 
 #
 # Delete Photo
@@ -148,3 +230,19 @@
 #     Photo from models
 #     render_template, flash from flask
 #
+@photos.route('/delete_photo/<int:id>', methods=['GET', 'POST'])
+def delete_photo(id):
+    """
+    Delete a photo from the database
+    """
+    # check if user is logged in
+    if not session.get('logged_in'):
+        return redirect(url_for('other.home'))
+
+    photo = Photo.query.get_or_404(id)
+    db.session.delete(photo)
+    db.session.commit()
+    flash('You have successfully deleted the photo.')
+
+    # redirect to the home page
+    return redirect(url_for('other.home'))
