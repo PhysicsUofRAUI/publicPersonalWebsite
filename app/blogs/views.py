@@ -187,7 +187,7 @@ def add_post():
 #   also the dream team example does the same thing.
 #   unsure of correctness of lines marked with US
 #
-@admin.route('/edit_post/<int:id>', methods=['GET', 'POST'])
+@blogs.route('/edit_post/<int:id>', methods=['GET', 'POST'])
 def edit_post(id):
     """
     Edit a blog post
@@ -244,7 +244,7 @@ def edit_post(id):
 #     Post from models
 #     render_template, flash from flask
 #
-@admin.route('/delete_post/<int:id>', methods=['GET', 'POST'])
+@blogs.route('/delete_post/<int:id>', methods=['GET', 'POST'])
 def delete_post(id):
     """
     Delete a post from the database
