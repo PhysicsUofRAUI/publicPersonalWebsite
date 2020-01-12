@@ -39,7 +39,7 @@ def gallery() :
     else :
         photos = db.session.query(Photo).all()
 
-        render_template('travel.html', photos=photos)
+        render_template('gallery.html', photos=photos)
 
 #
 # Add PhotoCategory

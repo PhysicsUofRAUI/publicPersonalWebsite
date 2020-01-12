@@ -1,0 +1,45 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Travel{% endblock %}
+{% block body %}
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-twothird">
+      {% if blogs %}
+        {% for blog in blogs %}
+          <h2> {{ blog.name }} </h2>
+          <p> {{ blog.content }} </p>
+          <a href={{ "url_for(blogs.gallery)", id=blogs.id}}>View</a>
+          {% if logged_in = true %}
+            <a href={{ "url_for(blogs.edit_post)", id=blogs.id}}>Edit</a>
+            <a href={{ "url_for(blogs.delete_post)", id=blogs.id}}>Delete</a>
+          {% endif %}
+
+        {% endfor %}
+      {% endif %}
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-third">
+      <h1>Categories</h1>
+
+      {% for category in categories %}
+        <a href={{ "url_for(blogs.gallery)", id=category.id}}>{{ cateogry.name }}</a>
+      {% endfor %}
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>

@@ -34,6 +34,8 @@ from ..models import Post, PostCategory, PostSubCategory
 #
 #     See the dream team example and https://exploreflask.com/en/latest/views.html
 #
+# Need to add query for the categories
+#
 @blogs.route('/travel/<subcategory>/<blog>', methods=['GET', 'POST'])
 def travel() :
     if not blog == None :
@@ -84,6 +86,8 @@ def travel() :
 #     passed value is null or not and that can be how subcategories are specified.
 #
 #     See the dream team example and https://exploreflask.com/en/latest/views.html
+#
+# Need to add query for the categories. Could also change around the GET and POST stuff.
 #
 @blogs.route('/projects/<subcategory>/<blog>', methods=['GET', 'POST'])
 def projects() :

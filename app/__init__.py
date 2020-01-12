@@ -35,6 +35,8 @@ def create_app(config_name):
 
     db.init_app(app)
 
+    Bootstrap(app)
+
     from app import models
 
     from .blogs import blogs as blogs_blueprint
