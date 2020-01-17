@@ -9,7 +9,7 @@ from forms import LoginForm
 # https://uniwebsidad.com/libros/explore-flask/chapter-12/storing-passwords
 
 # the password hash will be listed here I will run it later
-password = "need to run later"
+password = "$2y$12$KwjuplvjdZYccEBLpn61iOLa9K0au1earsrimI9OMJV0itDByNGvK"
 #
 # Login
 # Purpose:
