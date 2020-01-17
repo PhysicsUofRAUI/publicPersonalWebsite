@@ -15,10 +15,10 @@
         {% for blog in blogs %}
           <h2> {{ blog.name }} </h2>
           <p> {{ blog.content }} </p>
-          <a href={{ "url_for(blogs.projects)", id=blogs.id}}>View</a>
+          <a href={{ "url_for(blogs.projects)", id=blog.id}}>View</a>
           {% if logged_in = true %}
-            <a href={{ "url_for(blogs.edit_post)", id=blogs.id}}>Edit</a>
-            <a href={{ "url_for(blogs.delete_post)", id=blogs.id}}>Delete</a>
+            <a href={{ "url_for(blogs.edit_post)", id=blog.id}}>Edit</a>
+            <a href={{ "url_for(blogs.delete_post)", id=blog.id}}>Delete</a>
           {% endif %}
 
         {% endfor %}

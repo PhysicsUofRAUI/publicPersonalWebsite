@@ -3,6 +3,7 @@ from .. import db
 from . import photos
 from forms import PhotoForm, PhotoCategoryForm
 from ..models import Photo, PhotoCategory
+
 #
 # Gallery
 # Purpose:
