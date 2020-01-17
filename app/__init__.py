@@ -18,8 +18,10 @@ from flask.ext.bcrypt import Bcrypt
 # local imports
 from config import app_config
 
-bcrypt = Bcrypt(app)
 db = SQLAlchemy()
+
+SECRET_KEY = 'p9Bv<3Eid9%$i01'
+SQLALCHEMY_DATABASE_URI = 'mysql://pwAdmin:h0ngk0ng@localhost/pw'
 
 def create_app(config_name):
     if os.getenv('FLASK_CONFIG') == "development":
@@ -34,6 +36,13 @@ def create_app(config_name):
         app.config.from_pyfile('config.py')
 
     db.init_app(app)
+
+    with app.app_context():
+        # Extensions like Flask-SQLAlchemy now know what the "current" app
+        # is while within this block. Therefore, you can now run........
+        db.create_all()
+
+    bcrypt = Bcrypt(app)
 
     Bootstrap(app)
 

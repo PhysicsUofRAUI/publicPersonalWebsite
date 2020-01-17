@@ -34,7 +34,7 @@ from ..models import Post, PostCategory, PostSubCategory
 #
 #     See the dream team example and https://exploreflask.com/en/latest/views.html
 #
-# Need to add query for the categories
+# The category_id = 1 is used to select only the Travel blog posts
 #
 @blogs.route('/travel/<subcategory>/<blog>', methods=['GET', 'POST'])
 def travel() :
@@ -43,13 +43,13 @@ def travel() :
 
         render_template('travel.html', blogs=blogs)
 
-    else if not subcategory == None :
-        blogs = Post.query.filter_by(subcategory_id=subcategory, 'Travel'=category.name)
+    elif not subcategory == None :
+        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=1)
 
         render_template('travel.html', blogs=blogs)
 
     else :
-        blogs = Post.query.filter_by('Travel'=category.name)
+        blogs = Post.query.filter_by(category_id=1)
 
         render_template('travel.html', blogs=blogs)
 
@@ -96,13 +96,13 @@ def projects() :
 
         render_template('projects.html', blogs=blogs)
 
-    else if not subcategory == None :
-        blogs = Post.query.filter_by(subcategory_id=subcategory, 'Project'=category.name)
+    elif not subcategory == None :
+        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=2)
 
         render_template('projects.html', blogs=blogs)
 
     else :
-        blogs = Post.query.filter_by('Project'=category.name)
+        blogs = Post.query.filter_by(category_id=2)
 
         render_template('projects.html', blogs=blogs)
 

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from app import db
 
 #
 # Purpose:
@@ -35,7 +36,7 @@ class Photo(db.Model) :
     __tablename__ = 'photos'
 
     id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(64), nullable=false)
+    filename = db.Column(db.String(64), nullable=False)
     caption = db.Column(db.String(600))
 
     category_id = db.Column(db.Integer, db.ForeignKey('photo_categories.id'), nullable=False)
