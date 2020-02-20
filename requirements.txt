@@ -56,7 +56,7 @@ SecretStorage==2.3.1
 six==1.14.0
 SQLAlchemy==1.1.4
 texttable==0.8.4
-urllib3==1.19.1
+urllib3==1.24.2
 uTidylib==0.3
 visitor==0.1.3
 websocket-client==0.37.0
