@@ -1,7 +1,7 @@
 from flask import render_template
 from .. import db
 from . import blogs
-from forms import PostForm, SubCategoryForm
+from .forms import PostForm, SubCategoryForm
 from ..models import Post, PostCategory, PostSubCategory
 
 #

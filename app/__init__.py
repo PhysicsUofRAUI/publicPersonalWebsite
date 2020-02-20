@@ -13,7 +13,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask.ext.bcrypt import Bcrypt
+# from flask.ext.bcrypt import Bcrypt
 
 # local imports
 from config import app_config
@@ -21,7 +21,7 @@ from config import app_config
 db = SQLAlchemy()
 
 SECRET_KEY = 'p9Bv<3Eid9%$i01'
-SQLALCHEMY_DATABASE_URI = 'mysql://pwAdmin:h0ngk0ng@localhost/pw'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://pwAdmin:h0ngk0ng@localhost/pw'
 
 def create_app(config_name):
     if os.getenv('FLASK_CONFIG') == "development":
@@ -35,14 +35,9 @@ def create_app(config_name):
         app.config.from_object(app_config[config_name])
         app.config.from_pyfile('config.py')
 
-    db.init_app(app)
 
-    with app.app_context():
-        # Extensions like Flask-SQLAlchemy now know what the "current" app
-        # is while within this block. Therefore, you can now run........
-        db.create_all()
 
-    bcrypt = Bcrypt(app)
+    # bcrypt = Bcrypt(app)
 
     Bootstrap(app)
 
@@ -60,4 +55,13 @@ def create_app(config_name):
     from .photos import photos as photos_blueprint
     app.register_blueprint(photos_blueprint)
 
+
+    db.init_app(app)
+
+    with app.app_context():
+        # Extensions like Flask-SQLAlchemy now know what the "current" app
+        # is while within this block. Therefore, you can now run........
+        db.create_all()
+
+    
     return app

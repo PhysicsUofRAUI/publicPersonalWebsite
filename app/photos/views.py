@@ -1,7 +1,7 @@
 from flask import render_template
 from .. import db
 from . import photos
-from forms import PhotoForm, PhotoCategoryForm
+from .forms import PhotoForm, PhotoCategoryForm
 from ..models import Photo, PhotoCategory
 
 #

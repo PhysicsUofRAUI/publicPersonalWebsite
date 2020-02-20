@@ -1,7 +1,7 @@
 from flask.ext.bcrypt import generate_password_hash
 from flask import flash, redirect, render_template, url_for
 from . import auth
-from forms import LoginForm
+from .forms import LoginForm
 
 # The simple login logout solution was found at the following link:
 # https://pythonspot.com/login-authentication-with-flask/
