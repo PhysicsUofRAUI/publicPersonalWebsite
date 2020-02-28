@@ -16,10 +16,10 @@ body {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-black w3-card">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="smallMenuToggle()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">HOME</a>
-    <a href="#band" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BAND</a>
-    <a href="#tour" class="w3-bar-item w3-button w3-padding-large w3-hide-small">TOUR</a>
-    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
+    <a href="{{ url_for('other.home') }}" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+    <a href="{{ url_for('other.resume') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Resume</a>
+    <a href="{{ url_for('blogs.projects', blog='', subcategory='') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Projects</a>
+    <a href="{{ url_for('blogs.travel', subcategory='', blog='') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Travel</a>
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-padding-large w3-button" title="More">MORE <i class="fa fa-caret-down"></i></button>
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -34,14 +34,18 @@ body {font-family: "Lato", sans-serif}
 
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-  <a href="#band" class="w3-bar-item w3-button w3-padding-large" onclick="smallMenuToggle()">BAND</a>
+  <a href="{{ url}}" class="w3-bar-item w3-button w3-padding-large" onclick="smallMenuToggle()">BAND</a>
   <a href="#tour" class="w3-bar-item w3-button w3-padding-large" onclick="smallMenuToggle()">TOUR</a>
   <a href="#contact" class="w3-bar-item w3-button w3-padding-large" onclick="smallMenuToggle()">CONTACT</a>
   <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="smallMenuToggle()">MERCH</a>
 </div>
 
+<br><br>
+
+<div class="w3-container">
 {% block body %}
 {% endblock %}
+</div>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">

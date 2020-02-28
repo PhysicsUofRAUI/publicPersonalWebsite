@@ -17,8 +17,8 @@ from . import other
 #
 @other.route('/')
 @other.route('/home')
-def homepage():
-    render_template("home.html", title='Home')
+def home():
+    return render_template("home.html", title='Home')
 
 #
 # Resume
@@ -33,4 +33,4 @@ def homepage():
 #
 @other.route('/resume')
 def resume() :
-    render_template('resume.html', title='Resume')
+    return render_template('resume.html', title='Resume')

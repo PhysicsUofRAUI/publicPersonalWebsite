@@ -38,20 +38,20 @@ from ..models import Post, PostCategory, PostSubCategory
 #
 @blogs.route('/travel/<subcategory>/<blog>', methods=['GET', 'POST'])
 def travel() :
-    if not blog == None :
+    if not blog == '' :
         blogs = Post.query.filter_by(id=blog)
 
-        render_template('travel.html', blogs=blogs)
+        return render_template('travel.html', blogs=blogs)
 
-    elif not subcategory == None :
+    elif not subcategory == '' :
         blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=1)
 
-        render_template('travel.html', blogs=blogs)
+        return render_template('travel.html', blogs=blogs)
 
     else :
         blogs = Post.query.filter_by(category_id=1)
 
-        render_template('travel.html', blogs=blogs)
+        return render_template('travel.html', blogs=blogs)
 
 
 #
