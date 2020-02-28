@@ -119,7 +119,7 @@ class PhotoCategory(db.Model) :
 #     The following links database was used to model this:
 #         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 #
-class Post() :
+class Post(db.Model) :
     """
     Create Posts Table
     """
@@ -173,7 +173,7 @@ class Post() :
 #     The following links database was used to model this:
 #         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 #
-class PostCategory() :
+class PostCategory(db.Model) :
     """
     Create Categories table For Posts
     """
@@ -218,7 +218,7 @@ class PostCategory() :
 #     The following links database was used to model this:
 #         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 #
-class PostSubCategory() :
+class PostSubCategory(db.Model) :
     """
     Create SubCategories table For Posts
     """
@@ -230,3 +230,10 @@ class PostSubCategory() :
 
     def __repr__(self):
         return '<CSubCategory %r>' % self.name
+
+
+
+# if __name__== "__main__":
+#     print("Creating tables...")
+#     db.create_all()
+#     print("Tables created")

@@ -292,7 +292,7 @@ def delete_post(id):
 #     SubCategoryForm from forms.py
 #
 @blogs.route('/add_subcategory', methods=['GET', 'POST'])
-def add_post():
+def add_subcategory():
     """
     Add a subcategory for blog posts
     """

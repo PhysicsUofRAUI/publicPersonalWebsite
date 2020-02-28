@@ -32,7 +32,7 @@ def gallery() :
 
         render_template('gallery.html', photos=photos)
 
-    else if not category == None :
+    elif not category == None :
         photos = Photo.query.filter_by(category_id=category)
 
         render_template('gallery.html', photos=photos)

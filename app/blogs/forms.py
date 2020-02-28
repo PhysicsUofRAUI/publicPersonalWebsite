@@ -3,18 +3,20 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-
 from ..models import PostCategory, PostSubCategory
 from .. import db
+from flask_sqlalchemy import SQLAlchemy
 #
 # the style of using the select field was found from the example at this link
 # https://stackoverflow.com/questions/35314102/get-choices-from-a-database-query-in-wtforms-and-flask-sqlalchemy
 #
+
+
 def category_choices() :
-    return db.session.query(PostCategory).all()
+    return PostCategory.query
 
 def sub_category_choices() :
-    return db.session.query(PostSubCategory).all()
+    return PostSubCategory.query
 
 #
 # PostForm
@@ -39,8 +41,8 @@ class PostForm(FlaskForm):
     """
 
     title = StringField('Title', validators=[DataRequired()])
-    category = QuerySelectField('Category', validators=[DataRequired()], query_factory=category_choices())
-    sub_category = QuerySelectField('SubCategory', validators=[DataRequired()], query_factory=sub_category_choices())
+    category = QuerySelectField('Category', validators=[DataRequired()], query_factory=category_choices)
+    sub_category = QuerySelectField('SubCategory', validators=[DataRequired()], query_factory=sub_category_choices)
     content = TextAreaField('Content', validators=[DataRequired()])
 
     submit = SubmitField('Submit')

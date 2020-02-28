@@ -3,8 +3,6 @@
 # The dream team example has a few examples.
 #
 
-# setting the amount of hash rounds
-BCRYPT_LOG_ROUNDS = 12
 class Config(object):
     """
     Common configurations
@@ -12,8 +10,6 @@ class Config(object):
 
     DEBUG = True
 
-    # setting the amount of hash rounds
-    BCRYPT_LOG_ROUNDS = 12
 
 
 class DevelopmentConfig(Config):
@@ -23,8 +19,6 @@ class DevelopmentConfig(Config):
 
     SQLALCHEMY_ECHO = True
 
-    # setting the amount of hash rounds
-    BCRYPT_LOG_ROUNDS = 12
 
 
 class ProductionConfig(Config):
@@ -34,8 +28,6 @@ class ProductionConfig(Config):
 
     DEBUG = False
 
-    # setting the amount of hash rounds
-    BCRYPT_LOG_ROUNDS = 12
 
 
 class TestingConfig(Config):
@@ -45,8 +37,6 @@ class TestingConfig(Config):
 
     TESTING = True
 
-    # setting the amount of hash rounds
-    BCRYPT_LOG_ROUNDS = 12
 
 app_config = {
     'development': DevelopmentConfig,

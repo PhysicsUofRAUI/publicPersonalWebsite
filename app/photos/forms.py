@@ -12,7 +12,7 @@ from .. import db
 # https://stackoverflow.com/questions/35314102/get-choices-from-a-database-query-in-wtforms-and-flask-sqlalchemy
 #
 def category_choices() :
-    return db.session.query(PostCategory).all()
+    return PhotoCategory.query
 
 #
 # PhotoForm
@@ -37,7 +37,7 @@ class PhotoForm(FlaskForm):
     """
 
     file_name = StringField('File Name', validators=[DataRequired()])
-    category = QuerySelectField('Category', validators=[DataRequired()], query_factory=category_choices())
+    category = QuerySelectField('Category', validators=[DataRequired()], query_factory=category_choices)
     caption = TextAreaField('Caption', validators=[DataRequired()])
 
     submit = SubmitField('Submit')

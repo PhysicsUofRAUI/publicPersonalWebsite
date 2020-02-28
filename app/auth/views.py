@@ -1,4 +1,4 @@
-from flask.ext.bcrypt import generate_password_hash
+from werkzeug.security import generate_password_hash
 from flask import flash, redirect, render_template, url_for
 from . import auth
 from .forms import LoginForm
@@ -38,7 +38,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
 
-        if bcrypt.generate_password_hash(request.form['password']) == password and request.form['username'] == 'kody':
+        if generate_password_hash(request.form['password']) == password and request.form['username'] == 'kody':
             session['logged_in'] = True
             flash('Login Successful!')
 

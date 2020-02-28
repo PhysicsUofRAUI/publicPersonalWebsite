@@ -63,5 +63,5 @@ def create_app(config_name):
         # is while within this block. Therefore, you can now run........
         db.create_all()
 
-    
+
     return app
