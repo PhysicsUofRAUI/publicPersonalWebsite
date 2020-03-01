@@ -25,22 +25,25 @@ from ..models import Photo, PhotoCategory
 # Other Functions or classes needed:
 #     render_template from flask
 #
-@photos.route('/Gallery/<category>/<photo>', methods=['GET', 'POST'])
-def gallery() :
+@photos.route('/gallery/<photo>', defaults={'category': None}, methods=['GET', 'POST'])
+@photos.route('/gallery/<category>', defaults={'photo': None}, methods=['GET', 'POST'])
+@photos.route('/gallery', defaults={'category': None, 'photo': None}, methods=['GET', 'POST'])
+def gallery(photo, category) :
+    categories = PhotoCategory.query.all()
     if not photo == None :
         photos = Photo.query.filter_by(id=photo)
 
-        render_template('gallery.html', photos=photos)
+        return render_template('gallery.html', photos=photos)
 
     elif not category == None :
         photos = Photo.query.filter_by(category_id=category)
 
-        render_template('gallery.html', photos=photos)
+        return render_template('gallery.html', photos=photos)
 
     else :
         photos = db.session.query(Photo).all()
 
-        render_template('gallery.html', photos=photos)
+        return render_template('gallery.html', photos=photos, categories=categories)
 
 #
 # Add PhotoCategory
@@ -80,7 +83,7 @@ def add_photocategory():
     form = PhotoCategoryForm()
 
     if form.validate_on_submit():
-        new_photocategory = PhotoCategory(name=name)
+        new_photocategory = PhotoCategory(name=form.name.data)
 
         try:
             db.session.add(new_photocategory)
@@ -89,7 +92,7 @@ def add_photocategory():
         except:
             flash('An error occured :(')
 
-        return redirect(url_for(other.home))
+        return redirect(url_for('other.home'))
 
     render_template('add_photocategory.html', form=form)
 

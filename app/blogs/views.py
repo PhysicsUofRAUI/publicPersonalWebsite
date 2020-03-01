@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session, redirect, url_for, flash
 from .. import db
 from . import blogs
 from .forms import PostForm, SubCategoryForm
@@ -36,14 +36,17 @@ from ..models import Post, PostCategory, PostSubCategory
 #
 # The category_id = 1 is used to select only the Travel blog posts
 #
-@blogs.route('/travel/<subcategory>/<blog>', methods=['GET', 'POST'])
-def travel() :
-    if not blog == '' :
+@blogs.route('/travel/<blog>', defaults={'subcategory': None}, methods=['GET', 'POST'])
+@blogs.route('/travel/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
+@blogs.route('/travel', defaults={'subcategory': None, 'blog': None}, methods=['GET', 'POST'])
+def travel(subcategory, blog) :
+    categories = PostSubCategory.query.all()
+    if not blog == None :
         blogs = Post.query.filter_by(id=blog)
 
         return render_template('travel.html', blogs=blogs)
 
-    elif not subcategory == '' :
+    elif not subcategory == None :
         blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=1)
 
         return render_template('travel.html', blogs=blogs)
@@ -51,7 +54,7 @@ def travel() :
     else :
         blogs = Post.query.filter_by(category_id=1)
 
-        return render_template('travel.html', blogs=blogs)
+        return render_template('travel.html', blogs=blogs, categories=categories)
 
 
 #
@@ -89,22 +92,25 @@ def travel() :
 #
 # Need to add query for the categories. Could also change around the GET and POST stuff.
 #
-@blogs.route('/projects/<subcategory>/<blog>', methods=['GET', 'POST'])
-def projects() :
+@blogs.route('/projects/<blog>', defaults={'subcategory': None}, methods=['GET', 'POST'])
+@blogs.route('/projects/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
+@blogs.route('/projects', defaults={'subcategory': None, 'blog': None}, methods=['GET', 'POST'])
+def projects(subcategory, blog) :
+    categories = PostSubCategory.query.all()
     if not blog == None :
         blogs = Post.query.filter_by(id=blog)
 
-        render_template('projects.html', blogs=blogs)
+        return render_template('projects.html', blogs=blogs)
 
     elif not subcategory == None :
         blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=2)
 
-        render_template('projects.html', blogs=blogs)
+        return render_template('projects.html', blogs=blogs)
 
     else :
         blogs = Post.query.filter_by(category_id=2)
 
-        render_template('projects.html', blogs=blogs)
+        return render_template('projects.html', blogs=blogs)
 
 #
 # Add Post
@@ -144,8 +150,8 @@ def add_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        new_post = Post(name=title, content=content, category_id=category.id, category=category,
-            subcategory_id=sub_category.id, subcategory=sub_category)
+        new_post = Post(name=form.title.data, content=form.content.data, category_id=form.category.data.id, category=form.category.data,
+            subcategory_id=form.sub_category.data.id, subcategory=form.sub_category.data)
 
         try:
             db.session.add(new_post)
@@ -154,9 +160,9 @@ def add_post():
         except:
             flash('An error occured :(')
 
-        return redirect(url_for(other.home))
+        return redirect(url_for('other.home'))
 
-    render_template('add_post.html', form=form)
+    return render_template('add_post.html', form=form)
 
 #
 # Edit Post
@@ -203,7 +209,7 @@ def edit_post(id):
     post = Post.query.get_or_404(id)
     form = PostForm(obj=post)
     if form.validate_on_submit():
-        post.name = form.name.data
+        post.name = form.title.data
         post.content = form.content.data
         post.category_id = form.category.data.id # US
         post.category = form.category.data # US
@@ -217,7 +223,7 @@ def edit_post(id):
         return redirect(url_for('other.home'))
 
     form.content.data = post.content
-    form.name.data = post.name
+    form.title.data = post.name
     form.category.data = post.category # US
     form.sub_category.data = post.subcategory # US
     return render_template('edit_post.html', form=form, post=post, title="Edit Post")
@@ -302,7 +308,7 @@ def add_subcategory():
     form = SubCategoryForm()
 
     if form.validate_on_submit():
-        new_subcategory = PostSubCategory(name=name)
+        new_subcategory = PostSubCategory(name=form.name.data)
 
         try:
             db.session.add(new_subcategory)
@@ -311,6 +317,6 @@ def add_subcategory():
         except:
             flash('An error occured :(')
 
-        return redirect(url_for(other.home))
+        return redirect(url_for('other.home'))
 
-    render_template('add_subcategory.html', form=form)
+    return render_template('add_subcategory.html', form=form)

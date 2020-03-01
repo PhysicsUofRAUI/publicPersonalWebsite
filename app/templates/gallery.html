@@ -15,10 +15,10 @@
         {% for photo in photos %}
           <img src="{{ url_for('static', filename=photo.filename) }}">
           <p> {{ photo.caption }} </p>
-          <a href={{ "url_for(photos.gallery)", id=photo.id}}>View</a>
-          {% if logged_in = true %}
-            <a href={{ "url_for(photos.edit_photo)", id=photo.id}}>Edit</a>
-            <a href={{ "url_for(photos.delete_photo)", id=photo.id}}>Delete</a>
+          <a href="{{ url_for(photos.gallery, id=photo.id) }}">View</a>
+          {% if session['logged_in'] %}
+            <a href="{{ url_for(photos.edit_photo, id=photo.id) }}">Edit</a>
+            <a href="{{ url_for(photos.delete_photo, id=photo.id) }}">Delete</a>
           {% endif %}
 
         {% endfor %}
@@ -32,8 +32,8 @@
       <h1>Categories</h1>
 
       {% for category in categories %}
-        <a href={{ "url_for(photos.gallery)", id=category.id}}>{{ cateogry.name }}</a>
-      {% enfor %}
+        <a href="{{ url_for(photos.gallery, id=category.id) }}">{{ cateogry.name }}</a>
+      {% endfor %}
 
     <!-- End Right Column -->
     </div>
@@ -43,3 +43,5 @@
 
   <!-- End Page Container -->
 </div>
+
+{% endblock %}
