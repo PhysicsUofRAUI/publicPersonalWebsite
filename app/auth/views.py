@@ -1,5 +1,5 @@
-from werkzeug.security import generate_password_hash
-from flask import flash, redirect, render_template, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import flash, redirect, render_template, url_for, request, session
 from . import auth
 from .forms import LoginForm
 
@@ -8,8 +8,7 @@ from .forms import LoginForm
 # The bcrypt stuff was found here:
 # https://uniwebsidad.com/libros/explore-flask/chapter-12/storing-passwords
 
-# the password hash will be listed here I will run it later
-password = "$2y$12$KwjuplvjdZYccEBLpn61iOLa9K0au1earsrimI9OMJV0itDByNGvK"
+passwrd = 'pbkdf2:sha256:150000$y6icYOFI$a8055a0ba1820ab85b52de7e6a57d3dfec22891e08e961f3dc27d7007aac37a8'
 #
 # Login
 # Purpose:
@@ -33,12 +32,12 @@ password = "$2y$12$KwjuplvjdZYccEBLpn61iOLa9K0au1earsrimI9OMJV0itDByNGvK"
 #
 #     All defined so we good :)
 #
-@auth.route('/login', methods=['POST'])
+@auth.route('/login', methods=['Get', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-
-        if generate_password_hash(request.form['password']) == password and request.form['username'] == 'kody':
+        
+        if check_password_hash(passwrd, form.password.data) and form.username.data == 'kody':
             session['logged_in'] = True
             flash('Login Successful!')
 
@@ -50,7 +49,7 @@ def login():
             flash('Invalid username or password.')
 
     # load login template
-    return render_template('auth/login.html', form=form, title='Login')
+    return render_template('login.html', form=form, title='Login')
 
 #
 # Logout
