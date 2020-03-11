@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session, redirect, url_for, flash
 from .. import db
 from . import photos
 from .forms import PhotoForm, PhotoCategoryForm
@@ -43,7 +43,7 @@ def gallery(photo, category) :
     else :
         photos = db.session.query(Photo).all()
 
-        return render_template('gallery.html', photos=photos, categories=categories)
+        return render_template('gallery.html', Photos=photos, categories=categories)
 
 #
 # Add PhotoCategory
@@ -94,7 +94,7 @@ def add_photocategory():
 
         return redirect(url_for('other.home'))
 
-    render_template('add_photocategory.html', form=form)
+    return render_template('add_photocategory.html', form=form)
 
 
 #
@@ -135,7 +135,7 @@ def add_photo():
     form = PhotoForm()
 
     if form.validate_on_submit():
-        new_photo = Photo(filename=file_name, caption=caption, category_id=category.id, category=category)
+        new_photo = Photo(filename=form.file_name.data, caption=form.caption.data, category_id=form.category.data.id, category=form.category.data)
 
         try:
             db.session.add(new_photo)
@@ -144,9 +144,9 @@ def add_photo():
         except:
             flash('An error occured :(')
 
-        return redirect(url_for(other.home))
+        return redirect(url_for('other.home'))
 
-    render_template('add_photo.html', form=form)
+    return render_template('add_photo.html', form=form)
 
 #
 # Edit Photo

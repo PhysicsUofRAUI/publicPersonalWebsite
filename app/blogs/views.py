@@ -110,7 +110,7 @@ def projects(subcategory, blog) :
     else :
         blogs = Post.query.filter_by(category_id=2)
 
-        return render_template('projects.html', blogs=blogs)
+        return render_template('projects.html', blogs=blogs, categories=categories)
 
 #
 # Add Post

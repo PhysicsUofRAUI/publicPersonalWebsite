@@ -43,7 +43,7 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     category = QuerySelectField('Category', validators=[DataRequired()], query_factory=category_choices)
     sub_category = QuerySelectField('SubCategory', validators=[DataRequired()], query_factory=sub_category_choices)
-    content = TextAreaField('Content', validators=[DataRequired()])
+    content = TextAreaField('Content', render_kw={'class': 'form-control', 'rows': 10, 'columns' = 10}, validators=[DataRequired()])
 
     submit = SubmitField('Submit')
 

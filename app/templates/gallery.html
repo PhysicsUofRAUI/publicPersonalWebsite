@@ -11,14 +11,14 @@
 
     <!-- Left Column -->
     <div class="w3-twothird">
-      {% if photos %}
-        {% for photo in photos %}
+      {% if Photos %}
+        {% for photo in Photos %}
           <img src="{{ url_for('static', filename=photo.filename) }}">
-          <p> {{ photo.caption }} </p>
-          <a href="{{ url_for(photos.gallery, id=photo.id) }}">View</a>
+          <p> {{ photo.caption|safe }} </p>
+          <a href="{{ url_for('photos.gallery', id=photo.id) }}">View</a>
           {% if session['logged_in'] %}
-            <a href="{{ url_for(photos.edit_photo, id=photo.id) }}">Edit</a>
-            <a href="{{ url_for(photos.delete_photo, id=photo.id) }}">Delete</a>
+            <a href="{{ url_for('photos.edit_photo', id=photo.id) }}">Edit</a>
+            <a href="{{ url_for('photos.delete_photo', id=photo.id) }}">Delete</a>
           {% endif %}
 
         {% endfor %}
@@ -32,7 +32,7 @@
       <h1>Categories</h1>
 
       {% for category in categories %}
-        <a href="{{ url_for(photos.gallery, id=category.id) }}">{{ cateogry.name }}</a>
+        <a href="{{ url_for('photos.gallery', id=category.id) }}">{{ category.name }}</a>
       {% endfor %}
 
     <!-- End Right Column -->

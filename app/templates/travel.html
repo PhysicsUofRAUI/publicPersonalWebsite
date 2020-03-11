@@ -14,7 +14,7 @@
       {% if blogs %}
         {% for blog in blogs %}
           <h2> {{ blog.name }} </h2>
-          <p> {{ blog.content }} </p>
+          {{ blog.content|safe }}
           <a href="{{ url_for('blogs.travel', blog=blog.id) }}">View</a>
           {% if session['logged_in'] %}
             <a href="{{ url_for('blogs.edit_post', id=blog.id) }}">Edit</a>
