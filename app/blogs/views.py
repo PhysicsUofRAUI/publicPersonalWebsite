@@ -37,22 +37,25 @@ from ..models import Post, PostCategory, PostSubCategory
 # The category_id = 1 is used to select only the Travel blog posts
 #
 @blogs.route('/travel/<blog>', defaults={'subcategory': None}, methods=['GET', 'POST'])
-@blogs.route('/travel/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
+@blogs.route('/travel/<blog>/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
 @blogs.route('/travel', defaults={'subcategory': None, 'blog': None}, methods=['GET', 'POST'])
 def travel(subcategory, blog) :
     categories = PostSubCategory.query.all()
     if not blog == None :
-        blogs = Post.query.filter_by(id=blog)
+        blogs = Post.query.filter_by(id=blog).order_by(Post.id.desc())
 
-        return render_template('travel.html', blogs=blogs)
+        return render_template('travel.html', blogs=blogs, categories=categories)
 
     elif not subcategory == None :
-        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=1)
+        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=1).order_by(Post.id.desc())
 
-        return render_template('travel.html', blogs=blogs)
+        if blogs.count() == 0 :
+            return redirect(url_for('blogs.projects', subcategory=subcategory))
+
+        return render_template('travel.html', blogs=blogs, categories=categories)
 
     else :
-        blogs = Post.query.filter_by(category_id=1)
+        blogs = Post.query.filter_by(category_id=1).order_by(Post.id.desc())
 
         return render_template('travel.html', blogs=blogs, categories=categories)
 
@@ -93,22 +96,25 @@ def travel(subcategory, blog) :
 # Need to add query for the categories. Could also change around the GET and POST stuff.
 #
 @blogs.route('/projects/<blog>', defaults={'subcategory': None}, methods=['GET', 'POST'])
-@blogs.route('/projects/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
+@blogs.route('/projects/<blog>/<subcategory>', defaults={'blog': None}, methods=['GET', 'POST'])
 @blogs.route('/projects', defaults={'subcategory': None, 'blog': None}, methods=['GET', 'POST'])
 def projects(subcategory, blog) :
     categories = PostSubCategory.query.all()
     if not blog == None :
-        blogs = Post.query.filter_by(id=blog)
+        blogs = Post.query.filter_by(id=blog).order_by(Post.id.desc())
 
-        return render_template('projects.html', blogs=blogs)
+        return render_template('projects.html', blogs=blogs, categories=categories)
 
     elif not subcategory == None :
-        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=2)
+        blogs = Post.query.filter_by(subcategory_id=subcategory, category_id=2).order_by(Post.id.desc())
 
-        return render_template('projects.html', blogs=blogs)
+        if blogs.count() == 0 :
+            return redirect(url_for('blogs.travel', subcategory=subcategory))
+
+        return render_template('projects.html', blogs=blogs, categories=categories)
 
     else :
-        blogs = Post.query.filter_by(category_id=2)
+        blogs = Post.query.filter_by(category_id=2).order_by(Post.id.desc())
 
         return render_template('projects.html', blogs=blogs, categories=categories)
 

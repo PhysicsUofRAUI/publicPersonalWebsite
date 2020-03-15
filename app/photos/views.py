@@ -26,22 +26,22 @@ from ..models import Photo, PhotoCategory
 #     render_template from flask
 #
 @photos.route('/gallery/<photo>', defaults={'category': None}, methods=['GET', 'POST'])
-@photos.route('/gallery/<category>', defaults={'photo': None}, methods=['GET', 'POST'])
+@photos.route('/gallery/<photo>/<category>', defaults={'photo': None}, methods=['GET', 'POST'])
 @photos.route('/gallery', defaults={'category': None, 'photo': None}, methods=['GET', 'POST'])
 def gallery(photo, category) :
     categories = PhotoCategory.query.all()
     if not photo == None :
-        photos = Photo.query.filter_by(id=photo)
+        photos = Photo.query.filter_by(id=photo).order_by(Post.id.desc())
 
-        return render_template('gallery.html', photos=photos)
+        return render_template('gallery.html', Photos=photos, categories=categories)
 
     elif not category == None :
-        photos = Photo.query.filter_by(category_id=category)
+        photos = Photo.query.filter_by(category_id=category).order_by(Post.id.desc())
 
-        return render_template('gallery.html', photos=photos)
+        return render_template('gallery.html', Photos=photos, categories=categories)
 
     else :
-        photos = db.session.query(Photo).all()
+        photos = db.session.query(Photo).all().order_by(Post.id.desc())
 
         return render_template('gallery.html', Photos=photos, categories=categories)
 
@@ -191,12 +191,12 @@ def edit_photo(id):
         return redirect(url_for('other.home'))
 
     photo = Photo.query.get_or_404(id)
-    form = PhotoForm(obj=post)
+    form = PhotoForm(obj=photo)
     if form.validate_on_submit():
         photo.filename = form.file_name.data
-        post.caption = form.caption.data
-        post.category_id = form.category.data.id # US
-        post.category = form.category.data # US
+        photo.caption = form.caption.data
+        photo.category_id = form.category.data.id # US
+        photo.category = form.category.data # US
 
         db.session.commit()
         flash('You have successfully edited the blog post.')

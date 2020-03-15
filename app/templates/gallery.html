@@ -14,12 +14,14 @@
       {% if Photos %}
         {% for photo in Photos %}
           <img src="{{ url_for('static', filename=photo.filename) }}">
-          <p> {{ photo.caption|safe }} </p>
+         {{ photo.caption|safe }}
+         <p>
           <a href="{{ url_for('photos.gallery', id=photo.id) }}">View</a>
           {% if session['logged_in'] %}
             <a href="{{ url_for('photos.edit_photo', id=photo.id) }}">Edit</a>
             <a href="{{ url_for('photos.delete_photo', id=photo.id) }}">Delete</a>
           {% endif %}
+        </p>
 
         {% endfor %}
       {% endif %}
@@ -31,9 +33,15 @@
     <div class="w3-third">
       <h1>Categories</h1>
 
+      <div style="overflow-y: scroll; height:400px;">
+        <ul style="list-style-type:none">
       {% for category in categories %}
-        <a href="{{ url_for('photos.gallery', id=category.id) }}">{{ category.name }}</a>
+      <li>
+        <a href="{{ url_for('photos.gallery', category=category.id) }}">{{ category.name }}</a>
+      </li>
       {% endfor %}
+        </ul>
+      </div>
 
     <!-- End Right Column -->
     </div>
