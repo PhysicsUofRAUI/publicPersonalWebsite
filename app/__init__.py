@@ -20,9 +20,6 @@ from config import app_config
 
 db = SQLAlchemy()
 
-SECRET_KEY = 'p9Bv<3Eid9%$i01'
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://pwAdmin:h0ngk0ng@localhost/pw'
-
 def create_app(config_name):
     if os.getenv('FLASK_CONFIG') == "development":
         app = Flask(__name__)

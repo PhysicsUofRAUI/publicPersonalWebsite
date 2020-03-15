@@ -31,17 +31,17 @@ from ..models import Photo, PhotoCategory
 def gallery(photo, category) :
     categories = PhotoCategory.query.all()
     if not photo == None :
-        photos = Photo.query.filter_by(id=photo).order_by(Post.id.desc())
+        photos = Photo.query.filter_by(id=photo).order_by(Photo.id.desc())
 
         return render_template('gallery.html', Photos=photos, categories=categories)
 
     elif not category == None :
-        photos = Photo.query.filter_by(category_id=category).order_by(Post.id.desc())
+        photos = Photo.query.filter_by(category_id=category).order_by(Photo.id.desc())
 
         return render_template('gallery.html', Photos=photos, categories=categories)
 
     else :
-        photos = db.session.query(Photo).all().order_by(Post.id.desc())
+        photos = db.session.query(Photo).all()
 
         return render_template('gallery.html', Photos=photos, categories=categories)
 
