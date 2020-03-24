@@ -3,3 +3,4 @@ venv/
 run.sh
 config.py
 app/__init__.py
+wsgi.py
