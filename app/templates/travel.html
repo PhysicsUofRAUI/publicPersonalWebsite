@@ -15,7 +15,7 @@
         {% for blog in blogs %}
           <h2> {{ blog.name }} </h2>
           {{ blog.content|safe }}
-          <a href="{{ url_for('blogs.travel', blog=blog.id) }}">View</a>
+          <a href="{{ url_for('blogs.arbitrary_post', id=blog.id) }}">View</a>
           {% if session['logged_in'] %}
             <a href="{{ url_for('blogs.edit_post', id=blog.id) }}">Edit</a>
             <a href="{{ url_for('blogs.delete_post', id=blog.id) }}">Delete</a>
@@ -24,6 +24,14 @@
         {% endfor %}
       {% endif %}
 
+      <p>
+        {% if prev_url %}
+          <a href="{{ prev_url }}">Newer posts</a>
+        {% endif %}
+        {% if next_url %}
+          <a href="{{ next_url }}">Older posts</a>
+        {% endif %}
+      </p>
     <!-- End Left Column -->
     </div>
 
@@ -35,7 +43,7 @@
         <ul style="list-style-type:none">
       {% for category in categories %}
       <li>
-        <a href="{{ url_for('blogs.travel', subcategory=category.id) }}">{{ category.name }}</a>
+        <a href="{{ url_for('blogs.subcategory_blogs', subcategory=category.id) }}">{{ category.name }}</a>
       </li>
       {% endfor %}
         </ul>

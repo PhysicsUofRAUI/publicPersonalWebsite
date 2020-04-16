@@ -8,7 +8,12 @@ from .forms import LoginForm
 # The bcrypt stuff was found here:
 # https://uniwebsidad.com/libros/explore-flask/chapter-12/storing-passwords
 
-passwrd = 'pbkdf2:sha256:150000$y6icYOFI$a8055a0ba1820ab85b52de7e6a57d3dfec22891e08e961f3dc27d7007aac37a8'
+#
+# My password that was previously hashed
+# To add a new password it world have to be hashed and then that hash would be
+# added.
+#
+passwrd = 'your-password-hash-here'
 #
 # Login
 # Purpose:
@@ -27,17 +32,12 @@ passwrd = 'pbkdf2:sha256:150000$y6icYOFI$a8055a0ba1820ab85b52de7e6a57d3dfec22891
 #     else
 #         render the login page
 #
-# Other Functions Needed:
-#     redirect, flash, and render_template from flask
-#
-#     All defined so we good :)
-#
 @auth.route('/login', methods=['Get', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        
-        if check_password_hash(passwrd, form.password.data) and form.username.data == 'kody':
+
+        if check_password_hash(passwrd, form.password.data) and form.username.data == 'your-username-here':
             session['logged_in'] = True
             flash('Login Successful!')
 
@@ -63,9 +63,6 @@ def login():
 #     set a flash to say logout was successful
 #
 #     redirect to the homepage
-#
-# Other Functions Needed:
-#     redirect, flash, url_for from flask
 #
 @auth.route('/logout')
 def logout():

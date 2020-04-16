@@ -13,30 +13,25 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-# from flask.ext.bcrypt import Bcrypt
+from config import Config
+from app.database import init_db
 
-# local imports
-from config import app_config
+from app.database import db_session
 
 db = SQLAlchemy()
 
-def create_app(config_name):
-    if os.getenv('FLASK_CONFIG') == "development":
-        app = Flask(__name__)
-        app.config.update(
-            SECRET_KEY=os.getenv('SECRET_KEY'),
-            SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')
-        )
-    else:
-        app = Flask(__name__, instance_relative_config=True)
-        app.config.from_object(app_config[config_name])
-        app.config.from_pyfile('config.py')
+def create_app(config_class=Config):
+    app = Flask(__name__)
 
+    app.config['SECRET_KEY'] = 'put-your-secret-key-here'
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # bcrypt = Bcrypt(app)
+    app.config['SQLALCHEMY_POOL_PRE_PING'] = True
 
-    Bootstrap(app)
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle' : 3600}
+
+    bootstrap = Bootstrap(app)
 
     from app import models
 
@@ -53,12 +48,14 @@ def create_app(config_name):
     app.register_blueprint(photos_blueprint)
 
 
-    db.init_app(app)
+    init_db()
 
-    with app.app_context():
-        # Extensions like Flask-SQLAlchemy now know what the "current" app
-        # is while within this block. Therefore, you can now run........
-        db.create_all()
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        db_session.remove()
+
+        if exception and db_session.is_active:
+            db_session.rollback()
 
 
     return app

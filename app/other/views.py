@@ -12,9 +12,6 @@ from . import other
 #     render the home page template
 #     (next version may include a search for Photos to make it more dynamic)
 #
-# Other Functions and Classes needed:
-#     render_template from flask
-#
 @other.route('/')
 @other.route('/home')
 def home():
@@ -27,9 +24,6 @@ def home():
 #
 # Method:
 #     render the resume page template
-#
-# Other Functions and Classes needed
-#     render_template from flask
 #
 @other.route('/resume')
 def resume() :

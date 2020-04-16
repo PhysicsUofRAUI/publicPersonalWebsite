@@ -11,10 +11,15 @@ from flask_sqlalchemy import SQLAlchemy
 # https://stackoverflow.com/questions/35314102/get-choices-from-a-database-query-in-wtforms-and-flask-sqlalchemy
 #
 
-
+#
+# This function is designed to obtain choices for the categories in the PostForm.
+#
 def category_choices() :
     return PostCategory.query
 
+#
+# This function is designed to obtain choices for the subcategories in the PostForm.
+#
 def sub_category_choices() :
     return PostSubCategory.query
 
@@ -25,15 +30,16 @@ def sub_category_choices() :
 #
 # Fields:
 #     Title: String Field (Required)
-#     Category: String Field (Required)
-#     Subcategory: String Field (Required)
+#     Category: QuerySelectField (Required)
+#       Obtains the categories from the database. As of right now there exists
+#       only two categories (Travel and Projects)
+#
+#     Subcategory: QuerySelectField (Required)
+#       Obtains the subcategories from the database. These subcategories were previously
+#       added with the add_subcategory view.
+#
 #     Content: Text Field (Required)
 #     Submit: Submit Field
-#
-# Other Functions or Classes Needed:
-#     TextAreaField, StringField, SubmitField from wtforms
-#     FlaskForm from flask_wtf
-#     Required from wtforms.validators
 #
 class PostForm(FlaskForm):
     """
@@ -55,11 +61,6 @@ class PostForm(FlaskForm):
 # Fields:
 #     Name: String Field (Required)
 #     Submit: SubmitField
-#
-# Other Functions or Classes Needed:
-#     StringField, SubmitField from wtforms
-#     FlaskForm from flask_wtf
-#     Required from wtforms.validators
 #
 class SubCategoryForm(FlaskForm) :
     """

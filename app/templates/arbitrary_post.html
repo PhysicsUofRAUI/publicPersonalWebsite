@@ -11,29 +11,17 @@
 
     <!-- Left Column -->
     <div class="w3-twothird">
-      {% if Photos %}
-        {% for photo in Photos %}
-          <img src="{{ url_for('static', filename=photo.filename) }}">
-         {{ photo.caption|safe }}
-         <p>
-          <a href="{{ url_for('photos.gallery', photo=photo.id, page=0) }}">View</a>
+      {% if blog %}
+          <h2> {{ blog.name }} </h2>
+          {{ blog.content|safe }}
+          <p>
+          <a href="{{ url_for('blogs.arbitrary_post', id=blog.id) }}">View</a>
           {% if session['logged_in'] %}
-            <a href="{{ url_for('photos.edit_photo', id=photo.id) }}">Edit</a>
-            <a href="{{ url_for('photos.delete_photo', id=photo.id) }}">Delete</a>
+            <a href="{{ url_for('blogs.edit_post', id=blog.id) }}">Edit</a>
+            <a href="{{ url_for('blogs.delete_post', id=blog.id) }}">Delete</a>
           {% endif %}
-        </p>
-
-        {% endfor %}
+          </p>
       {% endif %}
-
-      <p>
-        {% if prev_url %}
-          <a href="{{ prev_url }}">Newer posts</a>
-        {% endif %}
-        {% if next_url %}
-          <a href="{{ next_url }}">Older posts</a>
-        {% endif %}
-      </p>
 
     <!-- End Left Column -->
     </div>
@@ -46,7 +34,7 @@
         <ul style="list-style-type:none">
       {% for category in categories %}
       <li>
-        <a href="{{ url_for('photos.gallery', photo=None, category=category.id, page=0) }}">{{ category.name }}</a>
+        <a href="{{ url_for('blogs.subcategory_blogs', subcategory=category.id) }}">{{ category.name }}</a>
       </li>
       {% endfor %}
         </ul>

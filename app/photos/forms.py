@@ -22,14 +22,12 @@ def category_choices() :
 #
 # Fields:
 #     FileName: StringField (Required)
-#     Category: StringField
+#     Category: QuerySelectField
+#       Gets a set of categories from the database. These categories were previously
+#       added
+#
 #     Caption: TextAreaField
 #     Submit: SubmitField
-#
-# Things that will need to be included:
-#     StringField, TextAreaField, and SubmitField from wtforms
-#     FlaskForm from flask_wtf
-#     Required from wtforms.validators
 #
 class PhotoForm(FlaskForm):
     """
@@ -50,11 +48,6 @@ class PhotoForm(FlaskForm):
 # Fields:
 #     Name: String Field (Required)
 #     Submit: SubmitField
-#
-# Other Functions or Classes Needed:
-#     StringField, SubmitField from wtforms
-#     FlaskForm from flask_wtf
-#     Required from wtforms.validators
 #
 class PhotoCategoryForm(FlaskForm) :
     """

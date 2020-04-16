@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from app import db
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from app.database import Base
 
 #
 # Purpose:
@@ -24,24 +26,21 @@ from app import db
 #
 #     Delete Photo: Removes an entry from the database when the user requests it to be removed.
 #
-# Inspiration:
-#     The following links database was used to model this:
-#         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 #
-class Photo(db.Model) :
+class Photo(Base) :
     """
     Create Photos Table
     """
 
     __tablename__ = 'photos'
 
-    id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(64), nullable=False)
-    caption = db.Column(db.String(600))
+    id = Column(Integer, primary_key=True)
+    filename = Column(String(64), nullable=False)
+    caption = Column(String(600))
 
-    category_id = db.Column(db.Integer, db.ForeignKey('photo_categories.id'), nullable=False)
+    category_id = Column(Integer, ForeignKey('photo_categories.id'), nullable=False)
 
-    category = db.relationship('PhotoCategory', backref=db.backref('photos', lazy=True))
+    category = relationship('PhotoCategory', backref=backref('photos', lazy=True))
 
     def __repr__(self):
         return '<Post %r>' % self.filename
@@ -73,19 +72,15 @@ class Photo(db.Model) :
 #
 #     Add PhotoCategory: Lets the user add a new PhotoCategory
 #
-# Inspiration:
-#     The following links database was used to model this:
-#         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
-#
-class PhotoCategory(db.Model) :
+class PhotoCategory(Base) :
     """
     Create Category Table For Photos
     """
 
     __tablename__ = 'photo_categories'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), nullable=False)
 
     def __repr__(self):
         return '<PhotoCategory %r>' % self.name
@@ -115,31 +110,27 @@ class PhotoCategory(db.Model) :
 #
 #     Delete Post: Removes an entry from the database when the user requests it to be removed.
 #
-# Inspiration:
-#     The following links database was used to model this:
-#         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
-#
-class Post(db.Model) :
+class Post(Base) :
     """
     Create Posts Table
     """
 
     __tablename__ = 'posts'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
-    content = db.Column(db.String(12000))
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), index=True, unique=True)
+    content = Column(String(12000))
 
     # relation to category
-    category_id = db.Column(db.Integer, db.ForeignKey('post_categories.id'), nullable=False)
+    category_id = Column(Integer, ForeignKey('post_categories.id'), nullable=False)
 
-    category = db.relationship('PostCategory', backref=db.backref('posts', lazy=True))
+    category = relationship('PostCategory', backref=backref('posts', lazy=True))
 
 
     # relation to subcategory
-    subcategory_id = db.Column(db.Integer, db.ForeignKey('post_sub_categories.id'), nullable=False)
+    subcategory_id = Column(Integer, ForeignKey('post_sub_categories.id'), nullable=False)
 
-    subcategory = db.relationship('PostSubCategory', backref=db.backref('posts', lazy=True))
+    subcategory = relationship('PostSubCategory', backref=backref('posts', lazy=True))
 
     def __repr__(self):
         return '<Post %r>' % self.name
@@ -169,19 +160,15 @@ class Post(db.Model) :
 #     Projects: View that displays blog posts in the Project category. If the blog
 #         post has Project as a category it will be displayed
 #
-# Inspiration:
-#     The following links database was used to model this:
-#         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
-#
-class PostCategory(db.Model) :
+class PostCategory(Base) :
     """
     Create Categories table For Posts
     """
 
     __tablename__ = 'post_categories'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), index=True, unique=True)
 
     def __repr__(self):
         return '<Category %r>' % self.name
@@ -214,26 +201,15 @@ class PostCategory(db.Model) :
 #     Projects: View that displays blog posts in the Project category. A subcategory
 #         can be selected to display more specific posts.
 #
-# Inspiration:
-#     The following links database was used to model this:
-#         https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
-#
-class PostSubCategory(db.Model) :
+class PostSubCategory(Base) :
     """
     Create SubCategories table For Posts
     """
 
     __tablename__ = 'post_sub_categories'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), index=True, unique=True)
 
     def __repr__(self):
         return '<CSubCategory %r>' % self.name
-
-
-
-# if __name__== "__main__":
-#     print("Creating tables...")
-#     db.create_all()
-#     print("Tables created")
