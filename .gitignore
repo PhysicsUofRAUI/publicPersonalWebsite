@@ -1,5 +1,7 @@
 *.pyc
 venv/
+pwVenv/
 run.sh
 config.py
 wsgi.py
+*.sql
