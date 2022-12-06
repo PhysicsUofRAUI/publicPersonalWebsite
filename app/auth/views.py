@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import flash, redirect, render_template, url_for, request, session
 from . import auth
 from .forms import LoginForm
+from config import Config
 
 # The simple login logout solution was found at the following link:
 # https://pythonspot.com/login-authentication-with-flask/
@@ -13,7 +14,8 @@ from .forms import LoginForm
 # To add a new password it world have to be hashed and then that hash would be
 # added.
 #
-passwrd = 'your-password-hash-here'
+passwrd = Config.user_password_hash
+
 #
 # Login
 # Purpose:

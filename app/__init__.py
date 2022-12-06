@@ -23,7 +23,7 @@ db = SQLAlchemy()
 def create_app(config_class=Config):
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'put-your-secret-key-here'
+    app.config['SECRET_KEY'] = Config.SECRET_KEY
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

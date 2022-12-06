@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from config import Config
 
-engine = create_engine('mysql+mysqldb://pwAdmin:$ingap0re@localhost/pw', convert_unicode=True, pool_recycle=3600, pool_pre_ping=True)
+engine = create_engine('mysql+mysqldb://pwAdmin:' + Config.mysql_password + '@localhost/pw', convert_unicode=True, pool_recycle=3600, pool_pre_ping=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
